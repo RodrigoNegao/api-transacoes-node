@@ -3,11 +3,11 @@ import UUID from "uuid-int";
 import Transaction from "./classes/transaction";
 import User from "./classes/user";
 import { IUser } from "./interface/IUser";
-import cors from "cors"; // Acesso entre Servers
+import cors from "cors"; 
 
 const app = express();
 
-app.use(cors()); //Cors
+app.use(cors()); 
 
 app.use(express.json());
 
@@ -20,17 +20,8 @@ app.get("/", (request: Request, response: Response) => {
   return response.send("Pagina Principal");
 });
 
-//generate Id unique
-// number  0 <= id <=511
+
 const id = 0;
-
-// const generator = UUID(id);
-
-// const uuid = generator.uuid();
-// console.log(uuid); // 3270411116609537
-
-//generate Id unique
-//Date.now();
 
 const usersArray: Array<User> = []; //Cria nome User's' Users
 
@@ -53,11 +44,9 @@ app.post("/users",(request: Request, response: Response) => {
     cpf,
     email,
     age,
-  }: IUser = request.body; //{ name: string; cpf: string; email: string; age: number } = request.body;
+  }: IUser = request.body; 
 
-  //var transactions: any[] = [];
-
-  const user = new User(uuid, name, cpf, email, age); //transactions
+  const user = new User(uuid, name, cpf, email, age); 
 
   const existe = usersArray.find((f) => {
     return f.cpf === cpf;
@@ -86,7 +75,7 @@ app.get("/users/:id", (request: Request, response: Response) => {
       msg: "Usuário não encontrado",
     });
   }
-  //console.log(userFoundFound)
+  
   //Arrumar a ordem transacions por ultimo
   const resposta1 = response.json({
     user,
@@ -214,13 +203,10 @@ app.get(
     // encontrar o registro que queremos alterar
     const indiceUser = usersArray
       .findIndex((f) => {
-        return f.id === userIdInt; //&& f.transactions.id === idInt
+        return f.id === userIdInt; 
       })
       
       const transactions = usersArray[indiceUser].transactions.find((f) => f.id === idInt)
-
-      // console.log(indiceUser)
-      // console.log(transactions)
 
     if (!transactions) {
       return response.status(404).json({
@@ -239,25 +225,22 @@ app.get(
     const { userId}: { userId?: string} = request.params;
 
     const userIdInt: number = parseInt(userId);
-    //const idInt: number = parseInt(id);
 
     // encontrar o registro
     const indiceUser = usersArray
     .findIndex((f) => {
-      return f.id === userIdInt; //&& f.transactions.id === idInt
+      return f.id === userIdInt; 
     });
     
-    //console.log(indiceUser);
 
-    if (indiceUser === -1) { // index 0 é igual a falso , então usa -1
+    if (indiceUser === -1) { 
       return response.status(404).json({
         msg: "User not found",
       });
     }
 
     const transactions = usersArray[indiceUser].transactions;
-
-    //console.log(transactions);
+    
 
     if (!transactions) {
       return response.status(404).json({
@@ -328,13 +311,10 @@ app.put(
     // encontrar o registro que queremos alterar
     const indiceUser = usersArray
       .findIndex((f) => {
-        return f.id === userIdInt; //&& f.transactions.id === idInt
+        return f.id === userIdInt; 
       })
       
       const transactions = usersArray[indiceUser].transactions.find((f) => f.id === idInt)
-
-      // console.log(indiceUser)
-      // console.log(transactions)
 
     if (!transactions) {
       return response.status(404).json({
@@ -378,15 +358,13 @@ app.delete(
     // encontrar o Index que queremos alterar
     const indiceUser = usersArray
       .findIndex((f) => {
-        return f.id === userIdInt; //&& f.transactions.id === idInt
+        return f.id === userIdInt; 
       })
 
       const userTransactions = usersArray[indiceUser].transactions
       
       const transactionIndex = userTransactions.findIndex((item:any) => item.id === idInt)
 
-      // console.log(indiceUser)
-      // console.log(transactions)
 
     if (transactionIndex === -1) {
       return response.status(404).json({
@@ -400,4 +378,4 @@ app.delete(
   }
 );
 
-app.listen(3333, () => console.log("Servidor iniciado"));
+app.listen(3333);

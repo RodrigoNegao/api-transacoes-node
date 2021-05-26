@@ -6,7 +6,7 @@ class User {
   public cpf: string;
   public email: string;
   public age: number;
-  public transactions : Transaction[] = []; //Array<Transaction> // private não passa os dados
+  public transactions : Transaction[] = []; 
 
   constructor(
     id: number,
@@ -14,7 +14,6 @@ class User {
     cpf: string,
     email: string,
     age: number,
-    //transactions: any[]
   ) {
     this.id = id;
     this.name = name;
