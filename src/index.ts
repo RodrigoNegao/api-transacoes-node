@@ -3,30 +3,27 @@ import UUID from "uuid-int";
 import Transaction from "./classes/transaction";
 import User from "./classes/user";
 import { IUser } from "./interface/IUser";
-import cors from "cors"; 
+import cors from "cors";
 
 const app = express();
 
-app.use(cors()); 
+app.use(cors());
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
-
-
 
 //Rotas
 app.get("/", (request: Request, response: Response) => {
   return response.send("Pagina Principal");
 });
 
-
 const id = 0;
 
 const usersArray: Array<User> = []; //Cria nome User's' Users
 
 //POST users
-app.post("/users",(request: Request, response: Response) => {
+app.post("/users", (request: Request, response: Response) => {
   //localhost:3333/users
   // {
   //     "name": "Joao",
@@ -39,14 +36,9 @@ app.post("/users",(request: Request, response: Response) => {
   const generator = UUID(id);
   const uuid = generator.uuid();
 
-  const {
-    name,
-    cpf,
-    email,
-    age,
-  }: IUser = request.body; 
+  const { name, cpf, email, age }: IUser = request.body;
 
-  const user = new User(uuid, name, cpf, email, age); 
+  const user = new User(uuid, name, cpf, email, age);
 
   const existe = usersArray.find((f) => {
     return f.cpf === cpf;
@@ -75,7 +67,7 @@ app.get("/users/:id", (request: Request, response: Response) => {
       msg: "Usuário não encontrado",
     });
   }
-  
+
   //Arrumar a ordem transacions por ultimo
   const resposta1 = response.json({
     user,
@@ -84,12 +76,12 @@ app.get("/users/:id", (request: Request, response: Response) => {
 });
 
 //GET /users
-app.get("/users",cors(), (request: Request, response: Response) => {
+app.get("/users", cors(), (request: Request, response: Response) => {
   //localhost:3333/users
   //console.log(usersArray);
 
   return response.json({
-    Users: usersArray,
+    usersArray
   });
 });
 
@@ -146,7 +138,8 @@ app.delete("/users/:id", (request: Request, response: Response) => {
 
 //POST /user/:userId/transactions
 app.post(
-  "/user/:userId/transactions", cors(),
+  "/user/:userId/transactions",
+  cors(),
   (request: Request, response: Response) => {
     const { userId }: { userId?: string } = request.params;
     // {
@@ -183,9 +176,7 @@ app.post(
       });
     }
 
-    user.transactions.push(
-      new Transaction(title, value, typeLowerCase)
-    );
+    user.transactions.push(new Transaction(title, value, typeLowerCase));
 
     return response.status(200).json(user);
   }
@@ -201,12 +192,13 @@ app.get(
     const idInt: number = parseInt(id);
 
     // encontrar o registro que queremos alterar
-    const indiceUser = usersArray
-      .findIndex((f) => {
-        return f.id === userIdInt; 
-      })
-      
-      const transactions = usersArray[indiceUser].transactions.find((f) => f.id === idInt)
+    const indiceUser = usersArray.findIndex((f) => {
+      return f.id === userIdInt;
+    });
+
+    const transactions = usersArray[indiceUser].transactions.find(
+      (f) => f.id === idInt
+    );
 
     if (!transactions) {
       return response.status(404).json({
@@ -222,25 +214,22 @@ app.get(
 app.get(
   "/user/:userId/transactions",
   (request: Request, response: Response) => {
-    const { userId}: { userId?: string} = request.params;
+    const { userId }: { userId?: string } = request.params;
 
     const userIdInt: number = parseInt(userId);
 
     // encontrar o registro
-    const indiceUser = usersArray
-    .findIndex((f) => {
-      return f.id === userIdInt; 
+    const indiceUser = usersArray.findIndex((f) => {
+      return f.id === userIdInt;
     });
-    
 
-    if (indiceUser === -1) { 
+    if (indiceUser === -1) {
       return response.status(404).json({
         msg: "User not found",
       });
     }
 
     const transactions = usersArray[indiceUser].transactions;
-    
 
     if (!transactions) {
       return response.status(404).json({
@@ -248,28 +237,28 @@ app.get(
       });
     }
 
-      let total: number = 0;
-      let totalIncome: number = 0;
-      let totalOutcome: number = 0;
+    let total: number = 0;
+    let totalIncome: number = 0;
+    let totalOutcome: number = 0;
 
-      transactions.forEach(({value, type}: {value: number, type: string}) => {
-        switch(type) {
-          case 'income':
-            totalIncome += value
+    transactions.forEach(({ value, type }: { value: number; type: string }) => {
+      switch (type) {
+        case "income":
+          totalIncome += value;
           break;
-          case 'outcome':
-            totalOutcome += value
+        case "outcome":
+          totalOutcome += value;
           break;
-        }
-        total = totalIncome - totalOutcome;
-      });
+      }
+      total = totalIncome - totalOutcome;
+    });
 
     const dados = response.json({
       transactions,
       balance: {
-          "income": totalIncome,
-          "outcome": totalOutcome,
-          "total": total
+        income: totalIncome,
+        outcome: totalOutcome,
+        total: total,
       },
     });
 
@@ -309,12 +298,13 @@ app.put(
     }
 
     // encontrar o registro que queremos alterar
-    const indiceUser = usersArray
-      .findIndex((f) => {
-        return f.id === userIdInt; 
-      })
-      
-      const transactions = usersArray[indiceUser].transactions.find((f) => f.id === idInt)
+    const indiceUser = usersArray.findIndex((f) => {
+      return f.id === userIdInt;
+    });
+
+    const transactions = usersArray[indiceUser].transactions.find(
+      (f) => f.id === idInt
+    );
 
     if (!transactions) {
       return response.status(404).json({
@@ -356,24 +346,24 @@ app.delete(
     }
 
     // encontrar o Index que queremos alterar
-    const indiceUser = usersArray
-      .findIndex((f) => {
-        return f.id === userIdInt; 
-      })
+    const indiceUser = usersArray.findIndex((f) => {
+      return f.id === userIdInt;
+    });
 
-      const userTransactions = usersArray[indiceUser].transactions
-      
-      const transactionIndex = userTransactions.findIndex((item:any) => item.id === idInt)
+    const userTransactions = usersArray[indiceUser].transactions;
 
+    const transactionIndex = userTransactions.findIndex(
+      (item: any) => item.id === idInt
+    );
 
     if (transactionIndex === -1) {
       return response.status(404).json({
         msg: "Transactions not found",
       });
     }
-  
+
     const transaction = userTransactions.splice(transactionIndex, 1);
-  
+
     return response.status(200).json(transaction);
   }
 );
