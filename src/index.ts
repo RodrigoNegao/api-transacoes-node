@@ -81,7 +81,7 @@ app.get("/users", cors(), (request: Request, response: Response) => {
   //console.log(usersArray);
 
   return response.json({
-    usersArray
+    User: usersArray,
   });
 });
 
