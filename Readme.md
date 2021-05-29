@@ -10,5 +10,8 @@
 or
 - npm tsc 
 
+### .slugignore
+ignore arquivos não necessarios para o Heroku 
+
 ### package-lock.json
 - Da Conflito no Heroku
