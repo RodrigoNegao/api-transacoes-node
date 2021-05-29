@@ -100,12 +100,13 @@ app.put("/users/:userId", validarUser, (request: Request, response: Response) =>
     return f.id === idInt;
   });
 
-  // if (!user) {
-  //   return response.status(404).json({
-  //     msg: "Usuário não encontrado",
-  //   });
-  // }
+  if (!user) {
+    return response.status(404).json({
+      msg: "Usuário não encontrado",
+    });
+  }
 
+  //Não Transpila pq pode estar vazio
   user.name = name;
   user.cpf = cpf;
   user.email = email;
@@ -169,11 +170,11 @@ app.post(
       return f.id === idInt;
     });
 
-    // if (!user) {
-    //   return response.status(404).json({
-    //     msg: "User not found",
-    //   });
-    // }
+    if (!user) {
+      return response.status(404).json({
+        msg: "User not found",
+      });
+    }
 
     user.transactions.push(new Transaction(title, value, typeLowerCase));
 
@@ -310,11 +311,11 @@ app.put(
       (f) => f.id === idInt
     );
 
-    // if (!transactions) {
-    //   return response.status(404).json({
-    //     msg: "Transactions not found",
-    //   });
-    // }
+    if (!transactions) {
+      return response.status(404).json({
+        msg: "Transactions not found",
+      });
+    }
 
     transactions.title = title;
     transactions.value = value;
