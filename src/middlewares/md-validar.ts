@@ -32,7 +32,7 @@ function validarCpf(
 ) {
   const { cpf } = request.body;
 
-  console.log("valid CPF Middleware");
+  //console.log("valid CPF Middleware");
 
   const existe = usersArray.find((f) => {
     return f.cpf === cpf;
@@ -52,7 +52,7 @@ function validarEmail(
 ) {
   const { email } = request.body;
 
-  console.log("valid Name Middleware ");
+  //console.log("valid Name Middleware ");
 
   if (!email) {
     return response.status(400).json({
@@ -78,7 +78,7 @@ function validarAge(
 ) {
   const { age } = request.body;
 
-  console.log("valid Name Middleware");
+  //console.log("valid Name Middleware");
 
   if (!age) {
     return response.status(400).json({
