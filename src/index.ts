@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import UUID from "uuid-int";
 import Transaction from "./classes/transaction";
 import User from "./classes/user";
 import { IUser } from "./interface/IUser";
 import cors from "cors";
+import { validarAge, validarCpf, validarEmail, validarNome, validarTransactions, validarUser } from "./middlewares/md-validar";
 
 const app = express();
 
@@ -18,12 +18,12 @@ app.get("/", (request: Request, response: Response) => {
   return response.send("Pagina Principal");
 });
 
-const id = 0;
 
-const usersArray: Array<User> = []; //Cria nome User's' Users
+export const usersArray: Array<User> = []; //Cria nome User's' Users
 
 //POST users
-app.post("/users", (request: Request, response: Response) => {
+app.post("/users",validarNome,validarCpf,validarEmail, validarAge,
+ (request: Request, response: Response) => {
   //localhost:3333/users
   // {
   //     "name": "Joao",
@@ -33,20 +33,19 @@ app.post("/users", (request: Request, response: Response) => {
   // }
 
   //uuid - unit
-  const generator = UUID(id);
-  const uuid = generator.uuid();
+  
 
   const { name, cpf, email, age }: IUser = request.body;
 
-  const user = new User(uuid, name, cpf, email, age);
+  const user = new User(name, cpf, email, age);
 
-  const existe = usersArray.find((f) => {
-    return f.cpf === cpf;
-  });
+  // const existe = usersArray.find((f) => {
+  //   return f.cpf === cpf;
+  // });
 
-  if (existe) {
-    return response.status(400).json("CPF já Cadastrado");
-  }
+  // if (existe) {
+  //   return response.status(400).json("CPF já Cadastrado");
+  // }
 
   usersArray.push(user);
   console.log(user);
@@ -54,19 +53,19 @@ app.post("/users", (request: Request, response: Response) => {
 });
 
 //GET /users/:id
-app.get("/users/:id", (request: Request, response: Response) => {
+app.get("/users/:userId",validarUser, (request: Request, response: Response) => {
   //http://localhost:3333/users/:id"
-  let { id }: { id?: string } = request.params;
+  let { userId }: { userId?: string } = request.params;
 
-  const idInt: number = parseInt(id);
+  const idInt: number = parseInt(userId);
 
   const user = usersArray.find((f) => f.id === idInt);
 
-  if (!user) {
-    return response.status(404).json({
-      msg: "Usuário não encontrado",
-    });
-  }
+  // if (!user) {
+  //   return response.status(404).json({
+  //     msg: "Usuário não encontrado",
+  //   });
+  // }
 
   //Arrumar a ordem transacions por ultimo
   const resposta1 = response.json({
@@ -76,7 +75,7 @@ app.get("/users/:id", (request: Request, response: Response) => {
 });
 
 //GET /users
-app.get("/users", cors(), (request: Request, response: Response) => {
+app.get("/users", (request: Request, response: Response) => {
   //localhost:3333/users
   //console.log(usersArray);
 
@@ -86,8 +85,8 @@ app.get("/users", cors(), (request: Request, response: Response) => {
 });
 
 // Atualizar um registro específico -- Insominia PUT
-app.put("/users/:id", (request: Request, response: Response) => {
-  const { id }: { id?: string } = request.params;
+app.put("/users/:userId", validarUser, (request: Request, response: Response) => {
+  const { userId }: { userId?: string } = request.params;
   const {
     name,
     cpf,
@@ -95,17 +94,17 @@ app.put("/users/:id", (request: Request, response: Response) => {
     age,
   }: { name: string; cpf: string; email: string; age: number } = request.body;
 
-  const idInt: number = parseInt(id);
+  const idInt: number = parseInt(userId);
   // encontrar o registro que queremos alterar
   const user = usersArray.find((f) => {
     return f.id === idInt;
   });
 
-  if (!user) {
-    return response.status(404).json({
-      msg: "Usuário não encontrado",
-    });
-  }
+  // if (!user) {
+  //   return response.status(404).json({
+  //     msg: "Usuário não encontrado",
+  //   });
+  // }
 
   user.name = name;
   user.cpf = cpf;
@@ -116,20 +115,20 @@ app.put("/users/:id", (request: Request, response: Response) => {
 });
 
 // Excluir um user a partir de um ID
-app.delete("/users/:id", (request: Request, response: Response) => {
-  const { id }: { id?: string } = request.params;
+app.delete("/users/:userId", validarUser, (request: Request, response: Response) => {
+  const { userId }: { userId?: string } = request.params;
 
-  const idInt: number = parseInt(id);
+  const idInt: number = parseInt(userId);
 
   const indice = usersArray.findIndex((f) => {
     return f.id === idInt;
   });
 
-  if (indice === -1) {
-    return response.status(404).json({
-      msg: "Usuário não encontrado",
-    });
-  }
+  // if (indice === -1) {
+  //   return response.status(404).json({
+  //     msg: "Usuário não encontrado",
+  //   });
+  // }
 
   const user = usersArray.splice(indice, 1);
 
@@ -139,7 +138,7 @@ app.delete("/users/:id", (request: Request, response: Response) => {
 //POST /user/:userId/transactions
 app.post(
   "/user/:userId/transactions",
-  cors(),
+  validarUser,
   (request: Request, response: Response) => {
     const { userId }: { userId?: string } = request.params;
     // {
@@ -170,11 +169,11 @@ app.post(
       return f.id === idInt;
     });
 
-    if (!user) {
-      return response.status(404).json({
-        msg: "User not found",
-      });
-    }
+    // if (!user) {
+    //   return response.status(404).json({
+    //     msg: "User not found",
+    //   });
+    // }
 
     user.transactions.push(new Transaction(title, value, typeLowerCase));
 
@@ -185,6 +184,8 @@ app.post(
 //GET /user/:userId/transactions/:id
 app.get(
   "/user/:userId/transactions/:id",
+  validarUser,
+  validarTransactions,
   (request: Request, response: Response) => {
     const { userId, id }: { userId?: string; id?: string } = request.params;
 
@@ -200,11 +201,11 @@ app.get(
       (f) => f.id === idInt
     );
 
-    if (!transactions) {
-      return response.status(404).json({
-        msg: "Transactions not found",
-      });
-    }
+    // if (!transactions) {
+    //   return response.status(404).json({
+    //     msg: "Transactions not found",
+    //   });
+    // }
 
     return response.status(200).json(transactions);
   }
@@ -213,6 +214,7 @@ app.get(
 //GET /user/:userId/transactions
 app.get(
   "/user/:userId/transactions",
+  validarUser,
   (request: Request, response: Response) => {
     const { userId }: { userId?: string } = request.params;
 
@@ -223,19 +225,19 @@ app.get(
       return f.id === userIdInt;
     });
 
-    if (indiceUser === -1) {
-      return response.status(404).json({
-        msg: "User not found",
-      });
-    }
+    // if (indiceUser === -1) {
+    //   return response.status(404).json({
+    //     msg: "User not found",
+    //   });
+    // }
 
     const transactions = usersArray[indiceUser].transactions;
 
-    if (!transactions) {
-      return response.status(404).json({
-        msg: "Transactions not found",
-      });
-    }
+    // if (!transactions) {
+    //   return response.status(404).json({
+    //     msg: "Transactions not found",
+    //   });
+    // }
 
     let total: number = 0;
     let totalIncome: number = 0;
@@ -269,6 +271,8 @@ app.get(
 //PUT /user/:userId/transactions/:id
 app.put(
   "/user/:userId/transactions/:id",
+  validarUser,
+  validarTransactions,
   (request: Request, response: Response) => {
     const { userId, id }: { userId?: string; id?: string } = request.params;
 
@@ -306,11 +310,11 @@ app.put(
       (f) => f.id === idInt
     );
 
-    if (!transactions) {
-      return response.status(404).json({
-        msg: "Transactions not found",
-      });
-    }
+    // if (!transactions) {
+    //   return response.status(404).json({
+    //     msg: "Transactions not found",
+    //   });
+    // }
 
     transactions.title = title;
     transactions.value = value;
@@ -323,6 +327,8 @@ app.put(
 //DELETE /user/:userId/transactions/:id
 app.delete(
   "/user/:userId/transactions/:id",
+  validarUser,
+  validarTransactions,
   (request: Request, response: Response) => {
     const { userId, id }: { userId?: string; id?: string } = request.params;
 
