@@ -1,5 +1,5 @@
 import express from "express";
-import { usersArray } from "..";
+import { usersArray } from "../data";
 
 function validarNome(
   request: express.Request,

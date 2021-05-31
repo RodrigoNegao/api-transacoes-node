@@ -4,6 +4,7 @@ import User from "./classes/user";
 import { IUser } from "./interface/IUser";
 import cors from "cors";
 import { validarAge, validarCpf, validarEmail, validarNome, validarTransactions, validarUser } from "./middlewares/md-validar";
+import { usersArray } from "./data";
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.get("/", (request: Request, response: Response) => {
 });
 
 
-export const usersArray: Array<User> = []; //Cria nome User's' Users
+//export const usersArray: Array<User> = []; //Cria data
 
 //POST users
 app.post("/users",validarNome,validarCpf,validarEmail, validarAge,

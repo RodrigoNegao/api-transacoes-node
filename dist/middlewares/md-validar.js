@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validarTransactions = exports.validarUser = exports.validarAge = exports.validarEmail = exports.validarCpf = exports.validarNome = void 0;
-var __1 = require("..");
+var data_1 = require("../data");
 function validarNome(request, response, next) {
     var name = request.body.name;
     console.log("valid Name Middleware ");
@@ -20,7 +20,7 @@ function validarNome(request, response, next) {
 exports.validarNome = validarNome;
 function validarCpf(request, response, next) {
     var cpf = request.body.cpf;
-    var existe = __1.usersArray.find(function (f) {
+    var existe = data_1.usersArray.find(function (f) {
         return f.cpf === cpf;
     });
     if (existe) {
@@ -58,7 +58,7 @@ exports.validarAge = validarAge;
 function validarUser(request, response, next) {
     var userId = request.params.userId;
     var userIdInt = parseInt(userId);
-    var indiceUser = __1.usersArray.findIndex(function (f) {
+    var indiceUser = data_1.usersArray.findIndex(function (f) {
         return f.id === userIdInt;
     });
     if (indiceUser === -1) {
@@ -73,10 +73,10 @@ function validarTransactions(request, response, next) {
     var _a = request.params, userId = _a.userId, id = _a.id;
     var userIdInt = parseInt(userId);
     var idInt = parseInt(id);
-    var indiceUser = __1.usersArray.findIndex(function (f) {
+    var indiceUser = data_1.usersArray.findIndex(function (f) {
         return f.id === userIdInt;
     });
-    var transactions = __1.usersArray[indiceUser].transactions.find(function (f) { return f.id === idInt; });
+    var transactions = data_1.usersArray[indiceUser].transactions.find(function (f) { return f.id === idInt; });
     if (!transactions) {
         return response.status(404).json({
             msg: "Transactions not found",
