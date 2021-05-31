@@ -161,15 +161,6 @@ app.delete("/user/:userId/transactions/:id", md_validar_1.validarUser, md_valida
     var _a = request.params, userId = _a.userId, id = _a.id;
     var userIdInt = parseInt(userId);
     var idInt = parseInt(id);
-    var _b = request.body, title = _b.title, value = _b.value, type = _b.type;
-    var typeLowerCase = type.toLowerCase();
-    if (typeLowerCase !== "income") {
-        if (typeLowerCase !== "outcome") {
-            return response.status(404).json({
-                msg: "Pode apenas dois tipos Income and Outcome",
-            });
-        }
-    }
     var indiceUser = exports.usersArray.findIndex(function (f) {
         return f.id === userIdInt;
     });

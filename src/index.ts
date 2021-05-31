@@ -336,21 +336,21 @@ app.delete(
     const userIdInt: number = parseInt(userId);
     const idInt: number = parseInt(id);
 
-    const {
-      title,
-      value,
-      type,
-    }: { title: string; value: number; type: string } = request.body;
+    // const {
+    //   title,
+    //   value,
+    //   type,
+    // }: { title: string; value: number; type: string } = request.body;
 
-    const typeLowerCase = type.toLowerCase();
+    // const typeLowerCase = type.toLowerCase();
 
-    if (typeLowerCase !== "income") {
-      if (typeLowerCase !== "outcome") {
-        return response.status(404).json({
-          msg: "Pode apenas dois tipos Income and Outcome",
-        });
-      }
-    }
+    // if (typeLowerCase !== "income") {
+    //   if (typeLowerCase !== "outcome") {
+    //     return response.status(404).json({
+    //       msg: "Pode apenas dois tipos Income and Outcome",
+    //     });
+    //   }
+    // }
 
     // encontrar o Index que queremos alterar
     const indiceUser = usersArray.findIndex((f) => {
