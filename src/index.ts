@@ -155,7 +155,7 @@ app.post(
     }: { title: string; value: number; type: string } = request.body;
 
     const idInt: number = parseInt(userId);
-    const typeLowerCase = type.toLowerCase();
+    const typeLowerCase = type.toLowerCase().trim();
 
     if (typeLowerCase !== "income") {
       if (typeLowerCase !== "outcome") {

@@ -69,7 +69,7 @@ app.post("/user/:userId/transactions", md_validar_1.validarUser, function (reque
     var userId = request.params.userId;
     var _a = request.body, title = _a.title, value = _a.value, type = _a.type;
     var idInt = parseInt(userId);
-    var typeLowerCase = type.toLowerCase();
+    var typeLowerCase = type.toLowerCase().trim();
     if (typeLowerCase !== "income") {
         if (typeLowerCase !== "outcome") {
             return response.status(404).json({
