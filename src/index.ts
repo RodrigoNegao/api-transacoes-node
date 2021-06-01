@@ -201,6 +201,8 @@ app.get(
       (f) => f.id === idInt
     );
 
+    // usersArray.finIdTransaction(userIdInt,idInt)
+
     // if (!transactions) {
     //   return response.status(404).json({
     //     msg: "Transactions not found",

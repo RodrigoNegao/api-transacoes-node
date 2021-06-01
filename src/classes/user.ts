@@ -1,5 +1,7 @@
 import Transaction from "./transaction";
 import UUID from "uuid-int";
+import { usersArray } from "../data";
+
 
 const id = 0;
 const generator = UUID(id);
@@ -40,12 +42,7 @@ class User {
   allTransactions() {
     return this.transactions;
   }
-
-  finIdTransaction(id:number) {
-    const findTransition = this.transactions.find( (f) => f.id === id)
-    return findTransition;
-  }
-
+  
   removeTransactions(id: number) {
     // acho indice
     const indice = this.transactions.findIndex(

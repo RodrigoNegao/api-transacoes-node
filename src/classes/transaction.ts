@@ -1,3 +1,6 @@
+import { usersArray } from "../data";
+import User from "./user";
+
 // import UUID from "uuid-int";
 
 // const id = 0;
@@ -14,7 +17,7 @@ class Transaction{
         this.title = title;
         this.value = value;
         this.type = type;
-    }
+    }  
 }
 
 export default Transaction;

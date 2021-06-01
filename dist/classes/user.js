@@ -27,10 +27,6 @@ var User = (function () {
     User.prototype.allTransactions = function () {
         return this.transactions;
     };
-    User.prototype.finIdTransaction = function (id) {
-        var findTransition = this.transactions.find(function (f) { return f.id === id; });
-        return findTransition;
-    };
     User.prototype.removeTransactions = function (id) {
         var indice = this.transactions.findIndex(function (f) { return f.id === id; });
         if (indice === -1) {
