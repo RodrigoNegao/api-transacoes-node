@@ -16,6 +16,27 @@ var User = (function () {
         this.age = age;
         this.transactions = [];
     }
+    User.prototype.adicionarTransacao = function (title, value, type) {
+        this.transactions.push({
+            id: Date.now(),
+            title: title,
+            value: value,
+            type: type
+        });
+    };
+    User.prototype.allTransactions = function () {
+        return this.transactions;
+    };
+    User.prototype.finIdTransaction = function (id) {
+        var findTransition = this.transactions.find(function (f) { return f.id === id; });
+        return findTransition;
+    };
+    User.prototype.removeTransactions = function (id) {
+        var indice = this.transactions.findIndex(function (f) { return f.id === id; });
+        if (indice === -1) {
+        }
+        this.transactions.splice(indice, 1);
+    };
     return User;
 }());
 exports.default = User;

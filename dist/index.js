@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var transaction_1 = __importDefault(require("./classes/transaction"));
 var user_1 = __importDefault(require("./classes/user"));
 var cors_1 = __importDefault(require("cors"));
 var md_validar_1 = require("./middlewares/md-validar");
@@ -84,7 +83,7 @@ app.post("/user/:userId/transactions", md_validar_1.validarUser, function (reque
             msg: "User not found",
         });
     }
-    user.transactions.push(new transaction_1.default(title, value, typeLowerCase));
+    user.adicionarTransacao(title, value, typeLowerCase);
     return response.status(200).json(user);
 });
 app.get("/user/:userId/transactions/:id", md_validar_1.validarUser, md_validar_1.validarTransactions, function (request, response) {
@@ -103,7 +102,7 @@ app.get("/user/:userId/transactions", md_validar_1.validarUser, function (reques
     var indiceUser = data_1.usersArray.findIndex(function (f) {
         return f.id === userIdInt;
     });
-    var transactions = data_1.usersArray[indiceUser].transactions;
+    var transactions = data_1.usersArray[indiceUser].allTransactions();
     var total = 0;
     var totalIncome = 0;
     var totalOutcome = 0;

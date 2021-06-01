@@ -173,7 +173,9 @@ app.post(
       });
     }
 
-    user.transactions.push(new Transaction(title, value, typeLowerCase));
+    //user.transactions.push(new Transaction(title, value, typeLowerCase));
+
+    user.adicionarTransacao(title, value, typeLowerCase)
 
     return response.status(200).json(user);
   }
@@ -229,7 +231,9 @@ app.get(
     //   });
     // }
 
-    const transactions = usersArray[indiceUser].transactions;
+    // const transactions = usersArray[indiceUser].transactions;
+
+    const transactions = usersArray[indiceUser].allTransactions();
 
     // if (!transactions) {
     //   return response.status(404).json({
