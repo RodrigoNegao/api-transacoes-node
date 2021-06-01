@@ -10,11 +10,11 @@ var uuid = generator.uuid();
 var User = (function () {
     function User(name, cpf, email, age) {
         this.id = uuid;
-        this.transactions = [];
         this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.age = age;
+        this.transactions = [];
     }
     return User;
 }());

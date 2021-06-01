@@ -11,7 +11,7 @@ class User {
   public cpf: string;
   public email: string;
   public age: number;
-  public transactions : Transaction[] = []; 
+  public transactions : Transaction[] //= []; se colocar receber variavel aqui cmeça antes
 
   constructor(
     //id: number,
@@ -25,7 +25,7 @@ class User {
     this.cpf = cpf;
     this.email = email;
     this.age = age;
-    //this.transactions = transactions;
+    this.transactions = [];
   }
 }
 
