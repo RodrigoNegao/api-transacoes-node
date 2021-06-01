@@ -32,10 +32,6 @@ app.post("/users",validarNome,validarCpf,validarEmail, validarAge,
   //     "email":"ha@ha.com",
   //     "age": 15
   // }
-
-  //uuid - unit
-  
-
   const { name, cpf, email, age }: IUser = request.body;
 
   const user = new User(name, cpf, email, age);
