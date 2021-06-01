@@ -1,8 +1,8 @@
-import UUID from "uuid-int";
+// import UUID from "uuid-int";
 
-const id = 0;
-const generator = UUID(id);
-const uuid = generator.uuid();
+// const id = 0;
+// const generator = UUID(id);
+// const uuid = generator.uuid();
 
 class Transaction{
     public id:number = 0//uuid;
