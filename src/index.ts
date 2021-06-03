@@ -45,7 +45,7 @@ app.post("/users",validarNome,validarCpf,validarEmail, validarAge,
   // }
 
   usersArray.push(user);
-  console.log(user);
+  //console.log(user);
   return response.status(200).json({msg:"Cadastrado com sucesso"});
 });
 
