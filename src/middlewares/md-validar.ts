@@ -8,7 +8,7 @@ function validarNome(
 ) {
   const { name } = request.body;
 
-  console.log("valid Name Middleware ");
+  //console.log("valid Name Middleware ");
 
   if (!name) {
     return response.status(400).json({
