@@ -39,7 +39,7 @@ function validarCpf(
   });
 
   if (existe) {
-    return response.status(400).json("CPF já Cadastrado");
+    return response.status(400).json({msg:"CPF já Cadastrado"});
   }
 
   next();
