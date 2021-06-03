@@ -19,8 +19,7 @@ app.post("/users", md_validar_1.validarNome, md_validar_1.validarCpf, md_validar
     var _a = request.body, name = _a.name, cpf = _a.cpf, email = _a.email, age = _a.age;
     var user = new user_1.default(name, cpf, email, age);
     data_1.usersArray.push(user);
-    console.log(user);
-    return response.status(200).json("Cadastrado com sucesso");
+    return response.status(200).json({ msg: "Cadastrado com sucesso" });
 });
 app.get("/users/:userId", md_validar_1.validarUser, function (request, response) {
     var userId = request.params.userId;

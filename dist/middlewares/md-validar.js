@@ -4,7 +4,6 @@ exports.validarTransactions = exports.validarUser = exports.validarAge = exports
 var data_1 = require("../data");
 function validarNome(request, response, next) {
     var name = request.body.name;
-    console.log("valid Name Middleware ");
     if (!name) {
         return response.status(400).json({
             msg: "O nome deve ser informado",
@@ -24,7 +23,7 @@ function validarCpf(request, response, next) {
         return f.cpf === cpf;
     });
     if (existe) {
-        return response.status(400).json("CPF já Cadastrado");
+        return response.status(400).json({ msg: "CPF já Cadastrado" });
     }
     next();
 }
