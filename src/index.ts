@@ -6,6 +6,8 @@ import cors from "cors";
 import { validarAge, validarCpf, validarEmail, validarNome, validarTransactions, validarUser } from "./middlewares/md-validar";
 import { usersArray } from "./data";
 
+//Sempre fazer o -- tsc
+
 const app = express();
 
 app.use(cors());
